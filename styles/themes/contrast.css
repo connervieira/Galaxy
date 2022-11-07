@@ -1,0 +1,37 @@
+body {
+    background: #000000;
+    color: #ffffff;
+}
+
+
+.button {
+    background: #ffffff;
+    border-style: solid;
+    color: #000000;
+    text-decoration: none;
+}
+
+.form-container {
+    background: #ffffff;
+    color: #000000;
+}
+
+.location {
+    background: #ffffff;
+    color: #000000;
+}
+
+.space {
+    background: #000000;
+    color: #ffffff;
+}
+
+.container {
+    background: #ffffff;
+    color: #000000;
+}
+
+.item {
+    background: #000000;
+    color: #ffffff;
+}
