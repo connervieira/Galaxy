@@ -10,22 +10,12 @@
     color: #000000;
 }
 
-.location {
+.mainfilecontainer {
     background: #dddddd;
     color: #000000;
 }
 
-.space {
+..individualfile {
     background: #bbbbbb;
-    color: #000000;
-}
-
-.container {
-    background: #999999;
-    color: #000000;
-}
-
-.item {
-    background: #777777;
     color: #000000;
 }

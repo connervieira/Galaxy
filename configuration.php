@@ -26,11 +26,16 @@ $credit_level = $_POST["creditlevel"]; // This is the level of credit given to V
 $admin_user = $_POST["admin_user"]; // This is the username of the admin for this instance.
 $login_page = $_POST["login_page"]; // This is a link to the login page for this platform.
 $logout_page = $_POST["logout_page"]; // This is a link to the logout page for this platform.
+$allowed_extensions = explode(",", $_POST["allowed_extensions"]); // This is the array of permitted extensions.
+$max_file_size = floatval($_POST["max_file_size"]) * 1024 * 1024 * 1024; // This is the maximum allowed file size.
 
 
 if ($display_advanced_tools == "on") { $display_advanced_tools = true; } else { $display_advanced_tools = false; } // Convert the 'display advanced tools' setting to a bool.
 if ($backup_overwriting == "on") { $backup_overwriting = true; } else { $backup_overwriting = false; } // Convert the 'backup overwriting' setting to a bool.
 
+foreach ($allowed_extensions as $key => $extension) { // Iterate through all users in the list of permitted extensions.
+    $allowed_extensions[$key] = trim($extension); // Trim any leading or trailing blank spaces for each extension.
+}
 
 if ($theme != null) { // Check to see if information was input through the form.
     $config["theme"] = $theme;
@@ -39,9 +44,20 @@ if ($theme != null) { // Check to see if information was input through the form.
     $config["admin_user"] = $admin_user;
     $config["login_page"] = $login_page;
     $config["logout_page"] = $logout_page;
+    $config["allowed_extensions"] = $allowed_extensions;
+    $config["max_file_size"] = $max_file_size;
     file_put_contents("./configdatabase.txt", serialize($config)); // Write database changes to disk.
 }
 
+
+
+
+
+$formatted_allowed_extensions = "";
+foreach ($config["allowed_extensions"] as $extension) { // Iterate through all users in the list of permitted extensions.
+    $formatted_allowed_extensions = $formatted_allowed_extensions . "," . $extension; // Add this extension to the list with a comma separator.
+}
+$formatted_allowed_extensions = substr($formatted_allowed_extensions, 1);
 
 ?>
 
@@ -71,7 +87,7 @@ if ($theme != null) { // Check to see if information was input through the form.
                 <option value='metallic' <?php if ($config["theme"] == "metallic") { echo "selected"; } ?>>Metallic</option>
             </select>
             <br><br>
-            <label for="storage_location">Storage Location: </label><input id="storage_location" name="storage_location" type="text" value="<?php echo $config["storage_location"]; ?>" placeholder="Storage Location">
+            <label for="storage_location">Storage Location: </label><input id="storage_location" name="storage_location" type="text" value="<?php echo $config["storage_location"]; ?>" placeholder="/var/www/protected/galaxy/">
             <br><br>
             <label for='creditlevel'>Credit Level:</label>
             <select id='creditlevel' name='creditlevel'>
@@ -80,11 +96,15 @@ if ($theme != null) { // Check to see if information was input through the form.
                 <option value='off' <?php if ($config["credit_level"] == "off") { echo "selected"; } ?>>Off</option>
             </select>
             <br><br>
-            <label for="admin_user">Admin User: </label><input id="admin_user" name="admin_user" type="text" value="<?php echo $config["admin_user"]; ?>" placeholder="Admin User">
+            <label for="admin_user">Admin User: </label><input id="admin_user" name="admin_user" type="text" value="<?php echo $config["admin_user"]; ?>" placeholder="admin">
             <br><br>
-            <label for="login_page">Login Page: </label><input id="login_page" name="login_page" type="text" value="<?php echo $config["login_page"]; ?>" placeholder="Login Page">
+            <label for="login_page">Login Page: </label><input id="login_page" name="login_page" type="text" value="<?php echo $config["login_page"]; ?>" placeholder="/login.php">
             <br><br>
-            <label for="logout_page">Logout Page: </label><input id="logout_page" name="logout_page" type="text" value="<?php echo $config["logout_page"]; ?>" placeholder="Logout Page">
+            <label for="logout_page">Logout Page: </label><input id="logout_page" name="logout_page" type="text" value="<?php echo $config["logout_page"]; ?>" placeholder="/logout.php">
+            <br><br>
+            <label for="allowed_etensions">Allowed Extensions: </label><input id="allowed_extensions" name="allowed_extensions" type="text" value="<?php echo $formatted_allowed_extensions; ?>" placeholder="zip,png,jpg">
+            <br><br>
+            <label for="max_file_size">Max File Size (GB): </label><input id="max_file_size" name="max_file_size" type="number" step="0.01" value="<?php echo $config["max_file_size"]/1024**3; ?>" placeholder="1">
             <br><br>
             <input type="submit" value="Submit">
         </form>

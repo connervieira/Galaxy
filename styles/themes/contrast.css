@@ -16,22 +16,12 @@ body {
     color: #000000;
 }
 
-.location {
+.mainfilecontainer {
     background: #ffffff;
     color: #000000;
 }
 
-.space {
-    background: #000000;
-    color: #ffffff;
-}
-
-.container {
-    background: #ffffff;
-    color: #000000;
-}
-
-.item {
+.individualfile {
     background: #000000;
     color: #ffffff;
 }

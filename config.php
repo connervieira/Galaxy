@@ -11,11 +11,13 @@ if (file_exists("./configdatabase.txt") == false) { // If the database file does
     // Set the default configuration values.
     $config["theme"] = "light";
     $config["instance_name"] = "Galaxy";
-    $config["storage_location"] = "./storage/";
+    $config["storage_location"] = "/var/www/protected/galaxy/";
     $config["credit_level"] = "low";
     $config["admin_user"] = "";
     $config["login_page"] = "../login.php";
     $config["logout_page"] = "../logout.php";
+    $config["allowed_extensions"] = array("zip");
+    $config["max_file_size"] = 1 * 1024 * 1024 * 1024;
     file_put_contents("./configdatabase.txt", serialize($config)); // Write the configuration database to disk.
 
 } else { // Otherwise, the file exists, so load the configuration database from disk.

@@ -59,7 +59,7 @@ select {
     border-radius: 15px;
 }
 
-.location {
+.mainfilecontainer {
     border-radius:15px;
     padding: 1%;
     padding-left: 5%;
@@ -68,26 +68,10 @@ select {
     margin-bottom: 30px;
 }
 
-.space {
+.individualfile {
     border-radius:15px;
     padding: 1%;
     padding-left: 5%;
     padding-right: 5%;
     margin-bottom: 20px;
-}
-
-.container {
-    border-radius:15px;
-    padding: 1%;
-    padding-left: 5%;
-    padding-right: 5%;
-    margin-bottom: 10px;
-}
-
-.item {
-    border-radius:15px;
-    padding: 0.5%;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 5px;
 }

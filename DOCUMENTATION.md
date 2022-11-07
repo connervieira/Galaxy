@@ -14,6 +14,8 @@ Here you can learn how to install and use Galaxy.
     - Example: `sudo mv galaxy/ /var/www/html/`
 5. Grant PHP write permissions to the Galaxy directory.
     - Example: `sudo chmod 777 /var/www/html/galaxy/`
-6. Ensure file uploads are enabled in `php.ini`.
+6. Ensure file uploads are enabled and configured in `php.ini`.
+    - Set `file_uploads` to `on`.
+    - Set `upload_max_filesize` and `post_max_size` to the maximum file size you expect to process.
 7. Navigate to Galaxy in your browser.
     - Example: `http://localhost/galaxy/`

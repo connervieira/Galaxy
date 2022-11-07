@@ -24,22 +24,12 @@ body {
     color: #ffffff;
 }
 
-.location {
+.mainfilecontainer {
     background: #ff6666;
     color: #000000;
 }
 
-.space {
+.individualfile {
     background: #ffff66;
     color: #000000;
-}
-
-.container {
-    background: #66ff66;
-    color: #000000;
-}
-
-.item {
-    background: #6666ff;
-    color: #ffffff;
 }

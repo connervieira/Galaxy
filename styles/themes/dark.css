@@ -27,3 +27,13 @@ select {
     background: #333333;
     color: #ffffff;
 }
+
+.mainfilecontainer {
+    background: #222222;
+    color: #ffffff;
+}
+
+.individualfile {
+    background: #444444;
+    color: #ffffff;
+}
