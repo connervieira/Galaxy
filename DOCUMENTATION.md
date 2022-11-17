@@ -62,6 +62,11 @@ Here you can learn how to install and use Galaxy.
 2. Click the 'View' button on the main page.
 3. All files will be listed.
     - Note that files that are shared with you will not automatically appear.
+    - Each file will have the following information.
+        - The 'Title' is the name of the file as it was uploaded.
+        - The 'Description' is the file description entered when the file was uploaded.
+        - The 'Shared' is the list of users who can download this file, given the link.
+        - The 'Size' is the size of the file.
 
 
 ### Removing

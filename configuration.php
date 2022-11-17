@@ -36,9 +36,15 @@ if ($backup_overwriting == "on") { $backup_overwriting = true; } else { $backup_
 
 foreach ($allowed_extensions as $key => $extension) { // Iterate through all users in the list of permitted extensions.
     $allowed_extensions[$key] = trim($extension); // Trim any leading or trailing blank spaces for each extension.
+    if ($allowed_extensions[$key] == "") { // Check to see if this entry is empty.
+        unset($allowed_extensions[$key]); // Remove this entry.
+    }
 }
 foreach ($allowed_users as $key => $user) { // Iterate through all users in the list of permitted users.
     $allowed_users[$key] = trim($user); // Trim any leading or trailing blank spaces for each user.
+    if ($allowed_users[$key] == "") { // Check to see if this entry is empty.
+        unset($allowed_users[$key]); // Remove this entry.
+    }
 }
 
 if ($theme != null) { // Check to see if information was input through the form.
@@ -70,6 +76,8 @@ foreach ($config["allowed_users"] as $user) { // Iterate through all users in th
     $formatted_allowed_users = $formatted_allowed_users . "," . $user; // Add this user to the list with a comma separator.
 }
 $formatted_allowed_users = substr($formatted_allowed_users, 1); // Remove the first character, since it will always be a comma.
+
+
 
 ?>
 

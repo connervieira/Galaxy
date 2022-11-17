@@ -21,10 +21,8 @@ if (sizeof($config["allowed_users"]) > 0) { // Check to see if a user whitelist 
 }
 
 $uploaded_file = $_FILES["upload_file"]; // This is the file uploaded through the form.
-$authorized_users = $_POST["authorized_users"]; // This is the list of users authorized to access this file.
-$file_description = $_POST["description"]; // This is a short user-defined description of the file.
-
-
+$authorized_users = filter_var($_POST["authorized_users"], FILTER_SANITIZE_STRING); // This is the list of users authorized to access this file.
+$file_description = filter_var($_POST["description"], FILTER_SANITIZE_STRING); // This is a short user-defined description of the file.
 
 
 
@@ -72,6 +70,9 @@ function directory_size($path) {
 $authorized_users = explode(",", $authorized_users); // Convert the list of users into an array.
 foreach ($authorized_users as $key => $user) { // Iterate through all users in the list of authorized users.
     $authorized_users[$key] = trim($user); // Trim any leading or trailing blank space for each user.
+    if ($authorized_users[$key] == "") { // Check to see if this entry is empty.
+        unset($authorized_users[$key]); // Remove this entry.
+    }
 }
 
 

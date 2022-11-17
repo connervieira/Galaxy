@@ -17,6 +17,28 @@ $upload_directory = $config["storage_location"] . "/" . $username . "/"; // This
 
 // Load the upload database.
 include "./load_upload_database.php";
+
+
+
+
+function human_filesize($bytes, $decimals = 2) {
+    $size_character = 'BKMGTP';
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . $size_character[$factor];
+}
+
+function format_array_list($array) {
+    $formatted_array = "";
+    if (sizeof($array) > 0) {
+        foreach ($array as $user) { // Iterate through all entires in the array.
+            $formatted_array .= ", " . $user; // Add this entry to the list with a comma separator.
+        }
+        //echo "<script>alert('" . sizeof($array). "');</script>";
+        return substr($formatted_array, 2); // Remove the first 2 characters, since it will always be a comma and a space.
+    } else {
+        return "<i>None</i>"; // A return a placeholder, since the array was empty.
+    }
+}
 ?>
 
 
@@ -51,10 +73,10 @@ include "./load_upload_database.php";
                 echo "<div class='mainfilecontainer'>";
                     foreach ($database_file_list as $key => $file) {
                         echo "<div class='individualfile'>";
-                        echo "<p>Title: " . $file["title"] . "</p>";
-                        echo "<p>Description: " . $file["description"] . "</p>";
-                        echo "<p>File: " . $key . "</p>";
-                        //echo "<p>Users: " . print_r($file["authorized"]) . "</p>";
+                        echo "<p><b>Title:</b> " . $file["title"] . "</p>";
+                        echo "<p><b>Description:</b> " . $file["description"] . "</p>";
+                        echo "<p><b>Shared:</b> " . format_array_list($file["authorized"]) . "</p>";
+                        echo "<p><b>Size:</b> " . human_filesize(filesize($config["storage_location"] . "/" . $username . "/" . $key)) . "</p>";
                         echo "<br>";
                         echo "<a class='button' href='download.php?file=" . $key . "&user=" . $username . "'>Download</a>";
                         echo "<a class='button' href='remove.php?file=" . $key . "'>Remove</a>";

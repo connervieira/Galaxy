@@ -10,7 +10,7 @@ body {
 
 
 .button {
-    background: #999999;
+    background: #ffffff;
     border-style: solid;
     color: #000000;
     text-decoration: none;
@@ -24,25 +24,12 @@ body {
     color: #ffffff;
 }
 
-.location {
-    border-style: solid;
-    border-color: #000000;
-    border-width: 5px;
+.mainfilecontainer {
     background: #222222;
     color: #ffffff;
 }
 
-.space {
+.individualfile {
     background: #444444;
-    color: #888888;
-}
-
-.container {
-    background: #666666;
-    color: #333333;
-}
-
-.item {
-    background: #888888;
-    color: #000000;
+    color: #ffffff;
 }
