@@ -27,14 +27,18 @@ $admin_user = $_POST["admin_user"]; // This is the username of the admin for thi
 $login_page = $_POST["login_page"]; // This is a link to the login page for this platform.
 $logout_page = $_POST["logout_page"]; // This is a link to the logout page for this platform.
 $allowed_extensions = explode(",", $_POST["allowed_extensions"]); // This is the array of permitted extensions.
+$allowed_users = explode("," $_POST["allowed_users"]); // This is the array of users who can use this Galaxy instance.
 $max_file_size = floatval($_POST["max_file_size"]) * 1024 * 1024 * 1024; // This is the maximum allowed file size.
-
+$user_storage = floatval($_POST["user_storage"]) * 1024 * 1024 * 1024; // This is how much storage each user is permitted to use.
 
 if ($display_advanced_tools == "on") { $display_advanced_tools = true; } else { $display_advanced_tools = false; } // Convert the 'display advanced tools' setting to a bool.
 if ($backup_overwriting == "on") { $backup_overwriting = true; } else { $backup_overwriting = false; } // Convert the 'backup overwriting' setting to a bool.
 
 foreach ($allowed_extensions as $key => $extension) { // Iterate through all users in the list of permitted extensions.
     $allowed_extensions[$key] = trim($extension); // Trim any leading or trailing blank spaces for each extension.
+}
+foreach ($allowed_users as $key => $user) { // Iterate through all users in the list of permitted users.
+    $allowed_users[$key] = trim($user); // Trim any leading or trailing blank spaces for each user.
 }
 
 if ($theme != null) { // Check to see if information was input through the form.
@@ -45,7 +49,9 @@ if ($theme != null) { // Check to see if information was input through the form.
     $config["login_page"] = $login_page;
     $config["logout_page"] = $logout_page;
     $config["allowed_extensions"] = $allowed_extensions;
+    $config["allowed_users"] = $allowed_users;
     $config["max_file_size"] = $max_file_size;
+    $config["user_storage"] = $user_storage;
     file_put_contents("./configdatabase.txt", serialize($config)); // Write database changes to disk.
 }
 
@@ -57,7 +63,13 @@ $formatted_allowed_extensions = "";
 foreach ($config["allowed_extensions"] as $extension) { // Iterate through all users in the list of permitted extensions.
     $formatted_allowed_extensions = $formatted_allowed_extensions . "," . $extension; // Add this extension to the list with a comma separator.
 }
-$formatted_allowed_extensions = substr($formatted_allowed_extensions, 1);
+$formatted_allowed_extensions = substr($formatted_allowed_extensions, 1); // Remove the first character, since it will always be a comma.
+
+$formatted_allowed_users = "";
+foreach ($config["allowed_users"] as $user) { // Iterate through all users in the list of permitted extensions.
+    $formatted_allowed_users = $formatted_allowed_users . "," . $user; // Add this user to the list with a comma separator.
+}
+$formatted_allowed_users = substr($formatted_allowed_users, 1); // Remove the first character, since it will always be a comma.
 
 ?>
 
@@ -104,7 +116,9 @@ $formatted_allowed_extensions = substr($formatted_allowed_extensions, 1);
             <br><br>
             <label for="allowed_etensions">Allowed Extensions: </label><input id="allowed_extensions" name="allowed_extensions" type="text" value="<?php echo $formatted_allowed_extensions; ?>" placeholder="zip,png,jpg">
             <br><br>
-            <label for="max_file_size">Max File Size (GB): </label><input id="max_file_size" name="max_file_size" type="number" step="0.01" value="<?php echo $config["max_file_size"]/1024**3; ?>" placeholder="1">
+            <label for="max_file_size">Max File Size (GB): </label><input id="max_file_size" name="max_file_size" type="number" step="any" value="<?php echo $config["max_file_size"]/1024**3; ?>" placeholder="1">
+            <br><br>
+            <label for="user_storage">User Storage (GB): </label><input id="user_storage" name="user_storage" type="number" step="any" value="<?php echo $config["user_storage"]/1024**3; ?>" placeholder="1">
             <br><br>
             <input type="submit" value="Submit">
         </form>

@@ -17,7 +17,9 @@ if (file_exists("./configdatabase.txt") == false) { // If the database file does
     $config["login_page"] = "../login.php";
     $config["logout_page"] = "../logout.php";
     $config["allowed_extensions"] = array("zip");
+    $config["allowed_users"] = array();
     $config["max_file_size"] = 1 * 1024 * 1024 * 1024;
+    $config["user_storage"] = 5 * 1024 * 1024 * 1024;
     file_put_contents("./configdatabase.txt", serialize($config)); // Write the configuration database to disk.
 
 } else { // Otherwise, the file exists, so load the configuration database from disk.

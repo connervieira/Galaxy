@@ -32,6 +32,26 @@ function random_string($length = 10, $characters = "0123456789abcdefghijklmnopqr
     return $string; // Return the randomly generated string.
 }
 
+function directory_size($path) {
+    $total_size = 0;
+    $files = scandir($path);
+    $clean_path = rtrim($path, '/'). '/';
+    foreach($files as $t) {
+        if ($t<>"." && $t<>"..") {
+            $current_file = $clean_path . $t;
+            if (is_dir($current_file)) {
+                $size = foldersize($current_file);
+                $total_size += $size;
+            } else {
+                $size = filesize($current_file);
+                $total_size += $size;
+            }
+        }   
+    }
+
+    return $total_size;
+}
+
 
 
 
@@ -79,25 +99,29 @@ if ($uploaded_file["name"] !== "" and $uploaded_file["name"] !== null) { // Chec
     if (is_dir($upload_directory) == true) { // Check to make sure the upload directory is actually a directory.
         if (in_array(pathinfo($uploaded_file["name"], PATHINFO_EXTENSION), $config["allowed_extensions"]) == true) {
             if ($uploaded_file["size"] <= $config["max_file_size"]) { // Check to make sure the file is under the maximum allowed size.
-                if (strlen($uploaded_file["name"]) < 200) { // Check to make sure the file name is a reasonable length.
-                    if (preg_match("([^a-zA-Z0-9\.\ \-])", $uploaded_file["name"]) == false) {
-                        $upload_destination_name = strval(time()) . random_string() . "." . pathinfo($uploaded_file["name"], PATHINFO_EXTENSION); // Generate a random name for this file with the current time.
-                        $upload_destination_path = $upload_directory . "/" . $upload_destination_name; // Derive the upload path for this file.
-                        if (move_uploaded_file($uploaded_file["tmp_name"], $upload_destination_path) == true) { // Finalize the upload by attempting to save the uploaded file.
-                            $upload_database[$username][$upload_destination_name]["title"] = $uploaded_file["name"]; // This is a human-readable title of the file.
-                            $upload_database[$username][$upload_destination_name]["description"] = $file_description; // This is a user defined description of the file.
-                            $upload_database[$username][$upload_destination_name]["authorized"] = $authorized_users; // This is a list of the users authorized to view this file.
-                            file_put_contents($upload_database_file, serialize($upload_database)); // Save the upload database information to disk.
+                if (($uploaded_file["size"] + directory_size($upload_directory)) <= $config["user_storage"]) { // Check to make sure this file will fit, given the user's remaining allowed storage.
+                    if (strlen($uploaded_file["name"]) < 200) { // Check to make sure the file name is a reasonable length.
+                        if (preg_match("([^a-zA-Z0-9\.\ \-])", $uploaded_file["name"]) == false) {
+                            $upload_destination_name = strval(time()) . random_string() . "." . pathinfo($uploaded_file["name"], PATHINFO_EXTENSION); // Generate a random name for this file with the current time.
+                            $upload_destination_path = $upload_directory . "/" . $upload_destination_name; // Derive the upload path for this file.
+                            if (move_uploaded_file($uploaded_file["tmp_name"], $upload_destination_path) == true) { // Finalize the upload by attempting to save the uploaded file.
+                                $upload_database[$username][$upload_destination_name]["title"] = $uploaded_file["name"]; // This is a human-readable title of the file.
+                                $upload_database[$username][$upload_destination_name]["description"] = $file_description; // This is a user defined description of the file.
+                                $upload_database[$username][$upload_destination_name]["authorized"] = $authorized_users; // This is a list of the users authorized to view this file.
+                                file_put_contents($upload_database_file, serialize($upload_database)); // Save the upload database information to disk.
 
-                            echo "<p>The file was successfully uploaded.</p>";
+                                echo "<p>The file was successfully uploaded.</p>";
+                            } else {
+                                echo "<p>An unknown error occurred and the file couldn't be uploaded.</p>";
+                            }
                         } else {
-                            echo "<p>An unknown error occurred and the file couldn't be uploaded.</p>";
+                            echo "<p>The uploaded file name contains disallowed characters.</p>";
                         }
                     } else {
-                        echo "<p>The uploaded file name contains disallowed characters.</p>";
+                        echo "<p>The file name is longer than the maximum allowed size.</p>";
                     }
                 } else {
-                    echo "<p>The file name is longer than the maximum allowed size.</p>";
+                    echo "<p>There is not enough storage remaining on your account to store this file.</p>";
                 }
             } else {
                 echo "<p>The uploaded file is larger than the maximum allowed size.</p>";
