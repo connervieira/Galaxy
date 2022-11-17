@@ -12,6 +12,14 @@ if (isset($_SESSION['loggedin'])) {
 }
 
 
+if (sizeof($config["allowed_users"]) > 0) { // Check to see if a user whitelist is set.
+    if (in_array($username, $config["allowed_users"]) or $username == $config["admin_user"]) { // Check to see if the current user's username matches an enty in the whitelist.
+        echo "Permission denied"; // If not, deny the user access to this page.
+        exit(); // Quit loading the rest of the page.
+    }
+}
+
+
 $file = $_GET["file"]; // This is the file to delete.
 $confirmation = intval($_GET["confirm"]); // This is the user's confirmation that they want to delete the specified file.
 

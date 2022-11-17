@@ -27,6 +27,11 @@ Below is an overview of the security features included with Galaxy.
     - File names are not permitted to have multiple sequential periods.
     - The existence of a file is checked before it is deleted.
     - If the requested file is actually a directory, the download will be cancelled.
+    - The deletion system is incapable of deleting files owned by other users.
     - After pressing the 'Remove' button, a confirmation timestamp is generated, if the file is not confirmed for deletion within a certain time frame, the code becomes invalided.
         - This makes it much more difficult for a threat actor to trick a user into deleting a file, since they would have to guess the exact time they open the link.
         - If the confirmation timestamp is in the future, then a notice will be displayed to the user indicating that someone might be trying to manipulate them.
+4. Authentication
+    - Galaxy is natively compatible with DropAuth.
+    - Users who are not signed in can't access the upload, view, or remove pages.
+    - A whitelist of users can be set to prevent untrusted users from uploading files.

@@ -12,6 +12,14 @@ if (isset($_SESSION['loggedin'])) {
 	exit(); // Terminate the script.
 }
 
+
+if (sizeof($config["allowed_users"]) > 0) { // Check to see if a user whitelist is set.
+    if (in_array($username, $config["allowed_users"]) or $username == $config["admin_user"]) { // Check to see if the current user's username matches an enty in the whitelist.
+        echo "Permission denied"; // If not, deny the user access to this page.
+        exit(); // Quit loading the rest of the page.
+    }
+}
+
 $uploaded_file = $_FILES["upload_file"]; // This is the file uploaded through the form.
 $authorized_users = $_POST["authorized_users"]; // This is the list of users authorized to access this file.
 $file_description = $_POST["description"]; // This is a short user-defined description of the file.

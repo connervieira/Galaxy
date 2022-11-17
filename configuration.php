@@ -27,7 +27,7 @@ $admin_user = $_POST["admin_user"]; // This is the username of the admin for thi
 $login_page = $_POST["login_page"]; // This is a link to the login page for this platform.
 $logout_page = $_POST["logout_page"]; // This is a link to the logout page for this platform.
 $allowed_extensions = explode(",", $_POST["allowed_extensions"]); // This is the array of permitted extensions.
-$allowed_users = explode("," $_POST["allowed_users"]); // This is the array of users who can use this Galaxy instance.
+$allowed_users = explode(",", $_POST["allowed_users"]); // This is the array of users who can use this Galaxy instance.
 $max_file_size = floatval($_POST["max_file_size"]) * 1024 * 1024 * 1024; // This is the maximum allowed file size.
 $user_storage = floatval($_POST["user_storage"]) * 1024 * 1024 * 1024; // This is how much storage each user is permitted to use.
 
@@ -116,9 +116,11 @@ $formatted_allowed_users = substr($formatted_allowed_users, 1); // Remove the fi
             <br><br>
             <label for="allowed_etensions">Allowed Extensions: </label><input id="allowed_extensions" name="allowed_extensions" type="text" value="<?php echo $formatted_allowed_extensions; ?>" placeholder="zip,png,jpg">
             <br><br>
+            <label for="allowed_users">Allowed Users: </label><input id="allowed_users" name="allowed_users" type="text" value="<?php echo $formatted_allowed_users; ?>" placeholder="user1,user2">
+            <br><br>
             <label for="max_file_size">Max File Size (GB): </label><input id="max_file_size" name="max_file_size" type="number" step="any" value="<?php echo $config["max_file_size"]/1024**3; ?>" placeholder="1">
             <br><br>
-            <label for="user_storage">User Storage (GB): </label><input id="user_storage" name="user_storage" type="number" step="any" value="<?php echo $config["user_storage"]/1024**3; ?>" placeholder="1">
+            <label for="user_storage">User Storage (GB): </label><input id="user_storage" name="user_storage" type="number" step="any" value="<?php echo $config["user_storage"]/1024**3; ?>" placeholder="5">
             <br><br>
             <input type="submit" value="Submit">
         </form>

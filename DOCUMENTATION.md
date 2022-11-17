@@ -30,10 +30,15 @@ Here you can learn how to install and use Galaxy.
     - 'Credit Level' determines how much credit will be given to V0LT on the main page.
     - 'Admin User' specifies the administrative user of the instance.
         - The admin is the only user who can modify the configuration.
+        - If this setting is left blank, then anyone with access to Galaxy can change the configuration. Make sure to set this value before publishing your Galaxy instance.
     - 'Login Page' specifies the authentication login page.
         - This can be a DropAuth installation, or a custom authentication system.
     - 'Logout Page' specifies the authentication logout page.
     - 'Allowed Extensions' specifies which file extensions are permitted to be uploaded.
+        - If this is left blank, all extensions will be blocked.
+        - Use a comma to separate multiple file extensions.
+    - 'Allowed Users' specifies which users are permitted to access Galaxy.
+        - If this is left blank, all users will be allowed.
         - Use a comma to separate multiple file extensions.
     - 'Max File Size' determines the maxmimum individual allowed file size.
 3. Submit the configuration changes.

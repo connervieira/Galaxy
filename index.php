@@ -9,11 +9,15 @@ if (isset($_SESSION['loggedin'])) {
 	$username = $_SESSION['username'];
 } else {
     $username = "";
+    if (sizeof($config["allowed_users"]) > 0) { // Check to see if a user whitelist is set.
+        header("Location: login.php"); // Redirect the user to the login page if they are not signed in.
+        exit(); // Terminate the script.
+    }
 }
 
-if ($config["required_user"] != "") { // Check to see if a required username has been set.
-    if ($username != $config["required_user"]) { // Check to see if the current user's username matches the required username.
-        echo "Permissions denied"; // If not, deny the user access to this page.
+if (sizeof($config["allowed_users"]) > 0) { // Check to see if a user whitelist is set.
+    if (in_array($username, $config["allowed_users"]) == false and $username !== $config["admin_user"]) { // Check to see if the current user's username matches an enty in the whitelist.
+        echo "Permission denied"; // If not, deny the user access to this page.
         exit(); // Quit loading the rest of the page.
     }
 }
