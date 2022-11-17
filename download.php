@@ -1,5 +1,6 @@
 <?php
 include "./config.php";
+include "./load_upload_database.php";
 
 // Check to see if the user is signed in.
 session_start();
@@ -11,10 +12,11 @@ if (isset($_SESSION['loggedin'])) {
 }
 
 
-$file = $_GET["file"]; // This is the file to delete.
+$file = $_GET["file"]; // This is the file to download.
+$user = $_GET["user"]; // This is the user who owns the file to download.
 $confirmation = intval($_GET["confirm"]); // This is the user's confirmation that they want to delete the specified file.
 
-$upload_directory = $config["storage_location"] . "/" . $username . "/"; // This is the directory that the file will be uploaded to.
+$upload_directory = $config["storage_location"] . "/" . $user . "/"; // This is the directory that the file will be uploaded to.
 
 if (is_dir($config["storage_location"]) == false) { // Check to see if this instance's upload directory has been created yet.
     echo "<p>The global upload directory does not exist.</p>";
@@ -24,7 +26,6 @@ if (is_dir($upload_directory) == false) { // Check to see if this user's upload 
     echo "<p>The user upload directory does not exist.</p>";
     exit();
 }
-
 
 
 
@@ -38,8 +39,16 @@ if (strpos($file, "..") !== false or strpos($file, "~")) { // Check to make sure
     echo "<p>The file name was malformed.</p>";
     exit();
 }
+if (in_array($username, $upload_database[$user][$file]["authorized"]) == false and $user !== $username) { // Check to see if the current user in in the list of authorized users for this file.
+    echo "<p>You do not have permission to view this file.</p>";
+    exit();
+}
 if (file_exists($upload_directory . "/" . $file) == false) { // Make sure the download path actually exists.
     echo "<p>The download path doesn't exist.</p>";
+    exit();
+}
+if (is_dir($upload_directory . "/" . $file) == true) { // Check to see if the specified file is actually a directory.
+    echo "<p>The download path is malformed.</p>";
     exit();
 }
 

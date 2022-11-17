@@ -14,9 +14,31 @@ if (isset($_SESSION['loggedin'])) {
 
 $uploaded_file = $_FILES["upload_file"]; // This is the file uploaded through the form.
 $authorized_users = $_POST["authorized_users"]; // This is the list of users authorized to access this file.
+$file_description = $_POST["description"]; // This is a short user-defined description of the file.
 
 
-$upload_directory = $config["storage_location"] . "/" . $username . "/"; // This is the directory that the file will be uploaded to.
+
+
+
+
+
+// Define the function generate a random string of characters.
+function random_string($length = 10, $characters = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") {
+    $string = ""; // Set the generated string to a blank placeholder.
+    for ($i = 0; $i < $length; $i++) { // Loop for each character in the specified length of the string to be generated.
+        $index = rand(0, strlen($characters) - 1); // Pick a random character from the set.
+        $string .= $characters[$index]; // Append the random character selected.
+    }
+    return $string; // Return the randomly generated string.
+}
+
+
+
+
+
+
+
+
 
 
 $authorized_users = explode(",", $authorized_users); // Convert the list of users into an array.
@@ -24,6 +46,10 @@ foreach ($authorized_users as $key => $user) { // Iterate through all users in t
     $authorized_users[$key] = trim($user); // Trim any leading or trailing blank space for each user.
 }
 
+
+
+// Load the upload database.
+include "./load_upload_database.php";
 
 
 
@@ -55,7 +81,14 @@ if ($uploaded_file["name"] !== "" and $uploaded_file["name"] !== null) { // Chec
             if ($uploaded_file["size"] <= $config["max_file_size"]) { // Check to make sure the file is under the maximum allowed size.
                 if (strlen($uploaded_file["name"]) < 200) { // Check to make sure the file name is a reasonable length.
                     if (preg_match("([^a-zA-Z0-9\.\ \-])", $uploaded_file["name"]) == false) {
-                        if (move_uploaded_file($uploaded_file["tmp_name"], $upload_directory . $uploaded_file["name"]) == true) { // Finalize the upload.
+                        $upload_destination_name = strval(time()) . random_string() . "." . pathinfo($uploaded_file["name"], PATHINFO_EXTENSION); // Generate a random name for this file with the current time.
+                        $upload_destination_path = $upload_directory . "/" . $upload_destination_name; // Derive the upload path for this file.
+                        if (move_uploaded_file($uploaded_file["tmp_name"], $upload_destination_path) == true) { // Finalize the upload by attempting to save the uploaded file.
+                            $upload_database[$username][$upload_destination_name]["title"] = $uploaded_file["name"]; // This is a human-readable title of the file.
+                            $upload_database[$username][$upload_destination_name]["description"] = $file_description; // This is a user defined description of the file.
+                            $upload_database[$username][$upload_destination_name]["authorized"] = $authorized_users; // This is a list of the users authorized to view this file.
+                            file_put_contents($upload_database_file, serialize($upload_database)); // Save the upload database information to disk.
+
                             echo "<p>The file was successfully uploaded.</p>";
                         } else {
                             echo "<p>An unknown error occurred and the file couldn't be uploaded.</p>";
@@ -102,6 +135,7 @@ if ($uploaded_file["name"] !== "" and $uploaded_file["name"] !== null) { // Chec
         <main>
             <form class="form-container" method="post" enctype="multipart/form-data">
                 <label for="upload_file">File: </label><input type="file" name="upload_file" id="upload_file" accept="*" required><br>
+                <label for="description">Description: </label><input type="text" name="description" id="description"><br>
                 <label for="authorized_users">Authorized Users: </label><input type="text" name="authorized_users" id="authorized_users"><br>
                 <input type="submit" value="Upload">
             </form>

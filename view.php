@@ -12,34 +12,11 @@ if (isset($_SESSION['loggedin'])) {
 	exit(); // Terminate the script.
 }
 
-$uploaded_file = $_FILES["upload_file"]; // This is the file uploaded through the form.
-$authorized_users = $_POST["authorized_users"]; // This is the list of users authorized to access this file.
-
 
 $upload_directory = $config["storage_location"] . "/" . $username . "/"; // This is the directory that the file will be uploaded to.
 
-$authorized_users = explode(",", $authorized_users); // Convert the list of users into an array.
-foreach ($authorized_users as $key => $user) { // Iterate through all users in the list of authorized users.
-    $authorized_users[$key] = trim($user); // Trim any leading or trailing blank space for each user.
-}
-
-if (is_dir($config["storage_location"]) == false) { // Check to see if this instance's upload directory has been created yet.
-    try {
-        mkdir($config["storage_location"]); // Create the upload directory.
-    } catch (Exception $e) {
-        echo "<p>The global upload directory could not be created. This is likely server-side issue.</p>";
-        exit();
-    }
-}
-if (is_dir($upload_directory) == false) { // Check to see if this user's upload directory has been created yet.
-    try {
-        mkdir($upload_directory); // Create the upload directory.
-    } catch (Exception $e) {
-        echo "<p>The user upload directory could not be created. This is likely server-side issue.</p>";
-        exit();
-    }
-}
-
+// Load the upload database.
+include "./load_upload_database.php";
 ?>
 
 
@@ -63,15 +40,24 @@ if (is_dir($upload_directory) == false) { // Check to see if this user's upload 
         <hr><br>
         <main>
             <?php
-            $file_list = array_diff(scandir($upload_directory, 1), array(".", "..", ".DS_Store"));
-            if (sizeof($file_list) > 0) { // Check to see if there are any files in the upload directory.
+            if (isset($upload_database[$username])) {
+                $database_file_list = $upload_database[$username]; // This is the list of all files in the user's upload database.
+            } else {
+                $database_file_list = array();
+            }
+
+
+            if (sizeof($database_file_list) > 0) { // Check to see if there are any files in the upload directory.
                 echo "<div class='mainfilecontainer'>";
-                    foreach ($file_list as $file) {
+                    foreach ($database_file_list as $key => $file) {
                         echo "<div class='individualfile'>";
-                        echo "<p>" . $file . "</p>";
+                        echo "<p>Title: " . $file["title"] . "</p>";
+                        echo "<p>Description: " . $file["description"] . "</p>";
+                        echo "<p>File: " . $key . "</p>";
+                        //echo "<p>Users: " . print_r($file["authorized"]) . "</p>";
                         echo "<br>";
-                        echo "<a class='button' href='download.php?file=" . $file . "'>Download</a>";
-                        echo "<a class='button' href='remove.php?file=" . $file . "'>Remove</a>";
+                        echo "<a class='button' href='download.php?file=" . $key . "&user=" . $username . "'>Download</a>";
+                        echo "<a class='button' href='remove.php?file=" . $key . "'>Remove</a>";
                         echo "<br><br>";
                         echo "</div>";
                     }

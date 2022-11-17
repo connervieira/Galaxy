@@ -3,5 +3,5 @@
 This is an informal to do list for Galaxy. This list is not an official changelog, nor is it a declaration of future features. Everything is subject to change.
 
 - [X] Add a configuration value for permitted file extensions.
-- [ ] Convert file management system to a database system.
+- [X] Convert file management system to a database system.
 - [ ] Add a user management system to determine who is allowed to access and use Galaxy.

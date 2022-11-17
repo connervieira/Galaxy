@@ -16,6 +16,7 @@ $file = $_GET["file"]; // This is the file to delete.
 $confirmation = intval($_GET["confirm"]); // This is the user's confirmation that they want to delete the specified file.
 
 $upload_directory = $config["storage_location"] . "/" . $username . "/"; // This is the directory that the file will be uploaded to.
+include "./load_upload_database.php"; // Load the upload database.
 
 
 // Check to make sure the file upload directory exists.
@@ -29,7 +30,6 @@ if (is_dir($upload_directory) == false) { // Check to see if this user's upload 
 }
 
 
-
 // Sanitize the file inputs.
 if (preg_match("([^a-zA-Z0-9\.\ \-])", $file)) { // Make sure the download path doesn't have any malicious characters.
     echo "<p>The file name was malformed.</p>";
@@ -41,8 +41,18 @@ if (strpos($file, "..") !== false) { // Check to make sure the download path doe
     exit();
 }
 
+if (isset($upload_database[$username][$file]) == false) { // Check to see if an entry for this file exist in the user's upload database.
+    echo "<p>The indicated file doesn't exist in the database.</p>";
+    exit();
+}
+
 if (file_exists($upload_directory . "/" . $file) == false) { // Make sure the download path actually exists.
-    echo "<p>The indicated file doesn't exist.</p>";
+    echo "<p>The indicated file doesn't exist in the file system.</p>";
+    exit();
+}
+
+if (is_dir($upload_directory . "/" . $file) == true) { // Check to see if the specified file is actually a directory.
+    echo "<p>The file path is malformed.</p>";
     exit();
 }
 
@@ -73,7 +83,10 @@ if (file_exists($upload_directory . "/" . $file) == false) { // Make sure the do
                 echo "<p>" . $file . " has not been modified.</p>";
                 echo "<a class='button' href='./view.php'>Back</a>";
             } else if ((time() - $confirmation) < 30) {
-                unlink($upload_directory . $file); // Delete the file.
+                unlink($upload_directory . $file); // Delete the file from the disk.
+                unset($upload_database[$username][$file]); // Remove the file from the upload database.
+                file_put_contents($upload_database_file, serialize($upload_database)); // Save the upload database information to disk.
+                
                 echo "<p>" . $file . " has been deleted.</p>";
                 echo "<a class='button' href='./view.php'>Back</a>";
             } else {
