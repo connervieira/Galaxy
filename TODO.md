@@ -5,3 +5,5 @@ This is an informal to do list for Galaxy. This list is not an official changelo
 - [X] Add a configuration value for permitted file extensions.
 - [X] Convert file management system to a database system.
 - [ ] Add a user management system to determine who is allowed to access and use Galaxy.
+- [ ] Add a max file size limit per user.
+- [ ] Add input validation to the file description field on the upload page.

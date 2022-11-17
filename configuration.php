@@ -12,7 +12,7 @@ if (isset($_SESSION['loggedin'])) {
 
 if ($config["admin_user"] !== "" and $config["admin_user"] !== null) { // Check to see if the current user is authorized to configure this instance.
     if ($username != $config["admin_user"]) { // Check to see if the current user's username matches the admin user.
-        echo "<p>Permissions denied</p>"; // If not, deny the user access to this page.
+        echo "<p>Permission denied</p>"; // If not, deny the user access to this page.
         exit(); // Quit loading the rest of the page.
     }
 }
