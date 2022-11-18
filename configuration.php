@@ -102,7 +102,7 @@ $formatted_allowed_users = substr($formatted_allowed_users, 1); // Remove the fi
             <select id='theme' name='theme'>
                 <option value='light' <?php if ($config["theme"] == "light") { echo "selected"; } ?>>Light</option>
                 <option value='dark' <?php if ($config["theme"] == "dark") { echo "selected"; } ?>>Dark</option>
-                <option value='rainbow' <?php if ($config["theme"] == "rainbow") { echo "selected"; } ?>>Rainbow</option>
+                <option value='galaxy' <?php if ($config["theme"] == "galaxy") { echo "selected"; } ?>>Galaxy</option>
                 <option value='contrast' <?php if ($config["theme"] == "contrast") { echo "selected"; } ?>>Contrast</option>
                 <option value='metallic' <?php if ($config["theme"] == "metallic") { echo "selected"; } ?>>Metallic</option>
             </select>

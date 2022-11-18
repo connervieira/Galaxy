@@ -1,6 +1,6 @@
 <?php
-include "./config.php";
-include "./load_upload_database.php";
+include "./config.php"; // Load the configuration database.
+include "./load_upload_database.php"; // Load the file upload database.
 
 // Check to see if the user is signed in.
 session_start();
@@ -60,7 +60,7 @@ if (is_dir($upload_directory . "/" . $file) == true) { // Check to see if the sp
     exit();
 }
 
-$file = str_replace("//", "/", $file); // Remove any double slashes from the file path.
+$file = str_replace("/", "", $file); // Remove any slashes from the file path.
 
 
 

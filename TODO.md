@@ -7,4 +7,3 @@ This is an informal to do list for Galaxy. This list is not an official changelo
 - [X] Add a max file size limit per user.
 - [X] Add a user management system to determine who is allowed to access and use Galaxy.
 - [X] Add input validation to the file description field on the upload page.
-- [ ] Add a production-ready checking tool.

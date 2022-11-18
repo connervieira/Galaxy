@@ -27,10 +27,12 @@ Here you can learn how to install and use Galaxy.
 2. Adjust values as desired.
     - 'Theme' specifies the aesthetic theme used by Galaxy.
     - 'Storage Location' specifies where Galaxy will store uploaded files.
+        - This directory should be inaccessible directly over the internet, and should be writable to PHP.
     - 'Credit Level' determines how much credit will be given to V0LT on the main page.
     - 'Admin User' specifies the administrative user of the instance.
         - The admin is the only user who can modify the configuration.
-        - If this setting is left blank, then anyone with access to Galaxy can change the configuration. Make sure to set this value before publishing your Galaxy instance.
+        - Make sure to set this value before publishing your Galaxy instance.
+            - If this setting is left blank, then anyone with access to Galaxy can change the configuration.
     - 'Login Page' specifies the authentication login page.
         - This can be a DropAuth installation, or a custom authentication system.
     - 'Logout Page' specifies the authentication logout page.

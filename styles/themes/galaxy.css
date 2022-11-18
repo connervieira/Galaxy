@@ -1,0 +1,36 @@
+html {
+    background-color: #000000;
+    background-image: linear-gradient(180deg, #8800aa, #000000);
+    background-repeat: no-repeat;
+}
+
+body {
+    color: #ffffff;
+}
+
+
+.button {
+    background: #000000;
+    border-style: solid;
+    border-width: 1px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.form-container {
+    border-style: solid;
+    border-color: #ffffff;
+    border-width: 1px;
+    background: #000000;
+    color: #ffffff;
+}
+
+.mainfilecontainer {
+    background: #222222;
+    color: #ffffff;
+}
+
+.individualfile {
+    background: #444444;
+    color: #ffffff;
+}

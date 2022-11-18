@@ -4,7 +4,7 @@
 
 // Initialize the configuration database.
 if (file_exists("./configdatabase.txt") == false) { // If the database file doesn't exist, create it.
-    $config_file = fopen("configdatabase.txt", "w") or die("Unable to create configuration database file!"); // Create the file.
+    $config_file = fopen("./configdatabase.txt", "w") or die("Unable to create configuration database file. Please make sure PHP has write permissions in the root directory."); // Create the file.
     fwrite($config_file, "a:0:{}"); // Set the contents of the database file to a blank database.
     fclose($config_file); // Close the database file.
 
@@ -20,6 +20,7 @@ if (file_exists("./configdatabase.txt") == false) { // If the database file does
     $config["allowed_users"] = array();
     $config["max_file_size"] = 1 * 1024 * 1024 * 1024;
     $config["user_storage"] = 5 * 1024 * 1024 * 1024;
+
     file_put_contents("./configdatabase.txt", serialize($config)); // Write the configuration database to disk.
 
 } else { // Otherwise, the file exists, so load the configuration database from disk.

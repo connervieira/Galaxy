@@ -64,6 +64,8 @@ if (is_dir($upload_directory . "/" . $file) == true) { // Check to see if the sp
     exit();
 }
 
+$file = str_replace("/", "", $file); // Remove any slashes from the file path.
+
 
 
 ?>
