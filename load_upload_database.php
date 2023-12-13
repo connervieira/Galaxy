@@ -14,7 +14,7 @@ if (file_exists($upload_database_file) == false) { // Check to see if the upload
 
 
 if (is_writable($upload_database_file) == false) { // Check to see if there are permission problems with the upload database.
-    echo "<p>The upload database isn't writable. This is likely server-side issue.</p>";
+    echo "<p>The upload database (" . $upload_database_file . ") isn't writable. This is likely server-side issue.</p>";
     exit();
 }
 
