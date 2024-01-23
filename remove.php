@@ -4,10 +4,10 @@ include "./config.php"; // Import the configuration library.
 
 // Check to see if the user is signed in.
 session_start();
-if (isset($_SESSION['loggedin'])) {
+if ($_SESSION['authid'] == "dropauth") { // Check to see if the user is already signed in with DropAuth.
 	$username = $_SESSION['username'];
 } else {
-	header("Location: login.php"); // Redirect the user to the login page if they are not signed in.
+    header("Location: " . $config["login_page"]); // Redirect the user to the login page if they are not signed in.
 	exit(); // Terminate the script.
 }
 

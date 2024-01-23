@@ -5,12 +5,12 @@ include "./config.php"; // Import the configuration library.
 
 // Check to see if the user is signed in.
 session_start();
-if (isset($_SESSION['loggedin'])) {
+if ($_SESSION['authid'] == "dropauth") { // Check to see if the user is already signed in with DropAuth.
 	$username = $_SESSION['username'];
 } else {
     $username = "";
     if (sizeof($config["allowed_users"]) > 0) { // Check to see if a user whitelist is set.
-        header("Location: login.php"); // Redirect the user to the login page if they are not signed in.
+        header("Location: " . $config["login_page"]); // Redirect the user to the login page if they are not signed in.
         exit(); // Terminate the script.
     }
 }
@@ -32,7 +32,6 @@ if (sizeof($config["allowed_users"]) > 0) { // Check to see if a user whitelist 
         <title><?php echo $config["instance_name"]; ?></title>
         <link rel="stylesheet" href="styles/fonts/lato/latofonts.css">
         <link rel="stylesheet" type="text/css" href="./styles/main.css">
-        <link rel="stylesheet" type="text/css" href="./styles/themes/<?php echo $config["theme"]; ?>.css">
         <link rel="stylesheet" type="text/css" href="./styles/themes/<?php echo $config["theme"]; ?>.css">
     </head>
 
