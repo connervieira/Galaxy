@@ -14,8 +14,8 @@ if (file_exists("./configdatabase.txt") == false) { // If the database file does
     $config["storage_location"] = "/var/www/protected/galaxy/";
     $config["credit_level"] = "low";
     $config["admin_user"] = "";
-    $config["login_page"] = "../dropauth/login.php";
-    $config["logout_page"] = "../dropauth/logout.php";
+    $config["login_page"] = "../dropauth/signin.php";
+    $config["logout_page"] = "../dropauth/signout.php";
     $config["allowed_extensions"] = array("zip");
     $config["allowed_users"] = array();
     $config["max_file_size"] = 1 * 1024 * 1024 * 1024;
