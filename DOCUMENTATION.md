@@ -8,11 +8,11 @@ Here you can learn how to install and use Galaxy.
 1. Download Galaxy from the V0LT website, or another source.
 2. Install Apache, or another web server host.
     - Example: `sudo apt install apache2`
-3. Install and enable PHP for your webserver.
+3. Install and enable PHP for your web-server.
     - Example: `sudo apt install php7.4; sudo a2enmod php7.4`
 4. Install and configure DropAuth.
     - DropAuth can be downloaded from <https://v0lttech.com/dropauth.php>
-5. Move the Galaxy directory to a location on your webserver.
+5. Move the Galaxy directory to a location on your web-server.
     - Example: `sudo mv galaxy/ /var/www/html/`
 6. Grant PHP write permissions to the Galaxy directory.
     - Example: `sudo chmod 777 /var/www/html/galaxy/`
@@ -44,7 +44,7 @@ Here you can learn how to install and use Galaxy.
     - 'Allowed Users' specifies which users are permitted to access Galaxy.
         - If this is left blank, all users will be allowed.
         - Use a comma to separate multiple file extensions.
-    - 'Max File Size' determines the maxmimum individual allowed file size.
+    - 'Max File Size' determines the maximum individual allowed file size.
 3. Submit the configuration changes.
 
 
